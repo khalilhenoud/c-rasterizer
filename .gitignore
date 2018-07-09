@@ -32,3 +32,4 @@ Debug/
 *.filters
 *.vs
 *.db
+/c-rasterizer.vcxproj.user
