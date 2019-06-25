@@ -1,30 +1,24 @@
 /**
- * @file	frameratecontroller.h
- * @brief	Functions to specify and lock the frame rate.
+ * @author  Khalil El Henoud
+ * @brief   Sets and optionally limit the frame rate of the application.
  */
-#ifndef CPROJ_FRAMECONTROLLER
-#define CPROJ_FRAMECONTROLLER
+#ifndef FRAMECONTROLLER_H
+#define FRAMECONTROLLER_H
 
-void frameRateControllerInitialize(const int frameRate);
+void frameRateControllerInitialize(const int frameRate, const int lock);
 void frameRateControllerRelease(void);
 
 void setFrameRate(const int frameRate);
 int getSpecifiedFrameRate(void);
+int getActualFrameRate(void);
 
 /**
- * Returns current frame rate which might be different from the specified one.
- * @return	The current frame rate as an integer.
- */
-int getCurrentFrameRate(void);
-
-/**
- * Used in conjunction with 'frameRateControllerEnd' to lock the frame rate.
- * @return	A const int indicating the delta difference in time since the last frame.
- * @sa	frameRateControllerEnd()
+ * Used in conjunction with frameRateControllerEnd to report/lock framerate.
+ * @return	The delta difference in milliseconds since the last frame.
  */
 unsigned int frameRateControllerStart(void);
 
-/** Locks application till the required frame rate is reached. */
+/// If required, endlessly loops till the required frame rate is reached.
 void frameRateControllerEnd(void);
 
 #endif

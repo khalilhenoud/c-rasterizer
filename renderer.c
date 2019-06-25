@@ -1,11 +1,12 @@
 #include <windows.h>
+#include "platform.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <stdio.h>
 #include "renderer.h"
 
-extern int g_WindowWidth;
-extern int g_WindowHeight;
+static int g_WindowWidth;
+static int g_WindowHeight;
 static HDC hWindowDC;
 static HGLRC hWindowRC;
 static float *zbuffer;
@@ -14,10 +15,12 @@ static unsigned char *colorbuffer;
 /* 6 planes to clip against in homogeneous space. */
 static float hnormals[6][4] = {0};
 
-#define RenderPixel(x, y, red, green, blue) \
-	colorbuffer[(y) * g_WindowWidth * 3 + (x) * 3 + 0] = (unsigned char)(red * 255);		\
-	colorbuffer[(y) * g_WindowWidth * 3 + (x) * 3 + 1] = (unsigned char)(green * 255);		\
-	colorbuffer[(y) * g_WindowWidth * 3 + (x) * 3 + 2] = (unsigned char)(blue * 255);
+#define FOG_RGB 0x55
+
+#define RenderPixel(x, y, red, green, blue, fog) \
+	colorbuffer[(y) * g_WindowWidth * 3 + (x) * 3 + 0] = (unsigned char)(red * fog * 255) + (unsigned char)(FOG_RGB * (1.f - fog));		\
+	colorbuffer[(y) * g_WindowWidth * 3 + (x) * 3 + 1] = (unsigned char)(green * fog * 255) + (unsigned char)(FOG_RGB * (1.f - fog));		\
+	colorbuffer[(y) * g_WindowWidth * 3 + (x) * 3 + 2] = (unsigned char)(blue * fog * 255) + (unsigned char)(FOG_RGB * (1.f - fog));
 	
 static __inline long Ceil(float g)
 {
@@ -29,6 +32,9 @@ void initializeRenderer(void)
 {
 	extern HWND g_hWnd;
 	int i;
+
+  g_WindowWidth = getWindowWidth();
+  g_WindowHeight = getWindowHeight();
 
 	PIXELFORMATDESCRIPTOR kPFD = {0};
 	int iPixelFormat;
@@ -91,12 +97,14 @@ void clearColorAndDepthBuffer(void)
 	int i;
 
 	/* Clear color buffer. */
-	memset(colorbuffer, 0x55, sizeof(unsigned char) * 3 * (g_WindowHeight) * (g_WindowWidth));
+	memset(colorbuffer, FOG_RGB, sizeof(unsigned char) * 3 * (g_WindowHeight) * (g_WindowWidth));
 
 	/* Clear z buffer. */
 	for (i = 0; i < g_WindowHeight * g_WindowWidth; ++i)
 		zbuffer[i] = 1.f;
 }
+
+#define FOG()  (z > (1.f - 0.01f) ? ((1.f - z)/0.01f) : 1.f)
 
 void drawTriangle(const float vertices[12], const float colors[9])
 {
@@ -189,10 +197,11 @@ void drawTriangle(const float vertices[12], const float colors[9])
 		dr = (r1 - r0)/(xend - x);
 		dg = (g1 - g0)/(xend - x);
 		db = (b1 - b0)/(xend - x);
+    
 		for (; x <= xend; ++x) {
 			if (z < zbuffer[y * g_WindowWidth + x]) {
 				zbuffer[y * g_WindowWidth + x] = z;
-				RenderPixel(x, (g_WindowHeight - 1) - y, r, g, b);
+				RenderPixel(x, (g_WindowHeight - 1) - y, r, g, b, FOG());
 			}
 			z += dz;
 			r += dr;
@@ -242,7 +251,7 @@ void drawTriangle(const float vertices[12], const float colors[9])
 		for (; x <= xend; ++x) {
 			if (z < zbuffer[y * g_WindowWidth + x]) {
 				zbuffer[y * g_WindowWidth + x] = z;
-				RenderPixel(x, (g_WindowHeight - 1) - y, r, g, b);
+				RenderPixel(x, (g_WindowHeight - 1) - y, r, g, b, FOG());
 			}
 			z += dz;
 			r += dr;

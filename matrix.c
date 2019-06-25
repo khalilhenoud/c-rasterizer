@@ -132,8 +132,8 @@ void axisAngleMatrix(float matrix[], float axis[], float angle)
 	axis[2] /= len;
 	axis[3] /= len;
 	
-	/* Setting the matrices. check out cs 250 transformations chapter and xin li notes 
-	(Orientation.doc). */
+	// Setting the matrices. check out cs 250 transformations chapter and xin li notes 
+	// (Orientation.doc).
 	m1[0] = m1[4] = m1[8] = a;
 	
 	m2[0] = axis[0] * axis[0] * b;
@@ -159,7 +159,7 @@ void axisAngleMatrix(float matrix[], float axis[], float angle)
 	for (i = 0; i < 9; ++i)
 		m4[i] = m1[i] + m2[i] + m3[i];
 
-	/* Setting the final matrix. */
+	// Setting the final matrix.
 	setIdentity(matrix);
 	matrix[0] = m4[0];
 	matrix[1] = m4[1];

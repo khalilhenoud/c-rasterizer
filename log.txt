@@ -1,132 +1,69 @@
-Last updated on:
-Monday 8-1-2016, Thursday 8-4-2016, Friday 8-5-2016, Sunday 8-7-2016, Tuesday 8-9-2016, 
-Thursday 8-11-2016, Sunday 9-18-2016, Monday 9-19-2016, Sunday 9-25-2016, Tuesday 9-26-2016,
-Tuesday 10-11-2016, Wednesday 10-26-2016, Monday 12-12-2016, Monday 1-2-2016.
--------------------------------------------------------------------------------------------------
-Tasks (no particular order):
-- Copy matrix class from illumination project (without optimization, will be done later).									// done
-- Copy pipeline class from the illummination project.																		// done
-- Write a triangle rasterizer, a naive triangle rasterizer which can be expanded and optimized later.						// done
-- Make a small test model (handwritten) and try and see if it is drawn correctly onto the screen.							// done
-- Axis-angle matrix implementation.																							// done
-- Write a camera class. And allow it to freely walk the scene.																// done 
-- Implement a graphic hack till we implement homogeneous polygon clipping.													// done
-- Polygon clipping in homogeneous space and remove the pixel bound tests in the triangle rasterizer.						// done
-- Integration between the clipping in homogeneous space and triangle rasterizer.											// done
-- Fix bug in the movement code (floating point imprecision).																// done
-- Simple optimizations (inline render pixel and buffered blitting to opengl).												// done
-- Cleanup code in preparation for next step.																				// done
-- Understand the program and get up to date.																			
-	- Read and understand all core code (matrix, pipeline, renderer, etc...).												// done
-	- Read and understand 'mycode.c'.																						// done
-- Make a general object structure (to be expanded later).																	// done
-- Add indices and colors to the object structure in 'object.c'.																// done
-- Move createCube into 'object.c' and make it return a pointer to such object.												// done
-- Make a general render object function.																					// done
-- Install some plugins for visual studio:
-	- Doxygene documentation plugin.																						// done
-	- Github plugin.																										// done
-	- Editor guideline.																										// done
-- Refactor the project to use doxygene style comments, and recheck code.													// done
-- Write a simple model class and parse ASCII fbx file format from blender (will be expanded later).					
-	- First step ignore the normals, uv, etc...																				// done
-	- Research how to best export data from blender.																		// done
-		@ Export as Collada '.dae' file from blender 2.78, then use Autodesk converter 2013.3 to convert it into a human
-		readable ASCII file.
-		@ You get all the data you can ever want (huge win for me, no longer have to write my own exporter for now).
-	- Study the fbx ASCII to see what can be imported 'AT THIS STAGE' and make a list of that data.							// done
-		@ Notes:
-			- What we need to support (minimum):
-				- Meshes and objects.
-				- Hierarchies of objects/Meshes/etc...
-				- Transformations of objects.
-				- Basic animations for objects.
-				- Basic materials (maybe even textures if feasible).
-			- What we do not need to support in this iteration:
-				- Skinning or morphing.
-				- No support for cameras, lights or other types of objects beside meshes.
-				- UV animation.
-	- Parse the data we need to support in this initial stage.																
-		- Write general FBX ASCII parsing functionality.																	// current
-		- Write the structures that are represented by the parsed data and in this order:
-			- AnimationCurve, AnimationCurveNode, AnimationLayer, AnimationStack.
-			- Geometry, Model.
-			- Etc...
-	- Render the data found in the files, first focus on basic stuff:
-		- Render meshes as is (without transforming them to a real-time friendly format).
-		- Render animations for these meshes including animated hierarchies.
-		- Have basic materials for these meshes with or without actual textures.
-		- No fancy shaders whatsoever.
-	- Research Vulkan based renderering.
-	- Transform the mesh data to a real-time friendly format, in preparation for a Vulkan based renderer.
-	@ A vertex needs to be duplicated if referenced with 2 different normals or 2 different uv values. Since different 
-	tangents and binormals will be generated per vertex. Also a vertex will need to be duplicated if he has different 
-	values for those on different texture layers (this should never be the case unless the artist is inefficient). Of
-	course we are talking in the case where the mesh is in a real-time friendly format.
-	@ Add a model name parameter to enable loading of a specific model from an ASCII fbx file.
-	@ This will need to be elaborated on greatly, as a single FBX file can contain multiple models, animations, cameras,
-	multiple layer of textures, etc...																						
-	@ The more complex the engine gets the bigger the list of things to import will be.
-	@ Ultimately if you make the project into something bigger, you will have to write your own blender exporter/importer.
-	@ "https://banexdevblog.wordpress.com/2014/06/23/a-quick-tutorial-about-the-fbx-ascii-format/".
-@ Rewrite the homogeneous polygon clipping function in renderer.h/.c so that it doesn't use [in, out] params and to 
-make it more general.
-@ Stuff to re-study:
-	@ In 'matrix.c': 'setInverse', 'axisAngleMatrix', 'crossProductMatrix'.
-	@ In 'pipeline.c': 'GetViewportMatrix', 'Frustrum'.
-	@ In 'renderer.c': 'drawTriangle', 'clipPolygonHomogeneous'.
-- Review the matrix Axis angle transformation notes (academic).
-- Review the 3D transformation pipeline notes (academic).
-- Review the triangle rasterizer (academic).
-- Doxygene documentation, learn and comment the code while conforming to its standard.
-- Perspective correct texture mapping (bilinear filtering at first).
-- Add lighting calculations and light representation (basic forward rendering).
--------------------------------------------------------------------------------------------------
+Last updated on: Monday June 24 2019.
 
-scratch:
+Tasks section Legend:
++ Signifies a tasks that has already ended.
+- Upcoming task.
+-+ Task being worked on.
+-- Long term task; cannot be applied to sub-task, use deferred syntax for such a case.
+-* Deferred task.
+-$ Temporary task to be deleted after its done.
+@ Single comment.
+@ ... @ Block comment, can span several lines.
+# Scratch pad.
+# ... # Scrath block pad, can span several lines.
+
+Tasks:
++ Copy matrix class from illumination project (without optimization, will be done later).									
++ Copy pipeline class from the illummination project.																		
++ Write a triangle rasterizer, a naive triangle rasterizer which can be expanded and optimized later.						
++ Make a small test model (handwritten) and try and see if it is drawn correctly onto the screen.							
++ Axis-angle matrix implementation.																							
++ Write a camera class. And allow it to freely walk the scene.																 
++ Implement a graphic hack till we implement homogeneous polygon clipping.													
++ Polygon clipping in homogeneous space and remove the pixel bound tests in the triangle rasterizer.						
++ Integration between the clipping in homogeneous space and triangle rasterizer.											
++ Fix bug in the movement code (floating point imprecision).																
++ Simple optimizations (inline render pixel and buffered blitting to opengl).												
++ Cleanup code in preparation for next step.																			
++ Make a general object structure (to be expanded later).																	
++ Add indices and colors to the object structure in 'object.c'.																
++ Move createCube into 'object.c' and make it return a pointer to such object.												
++ Make a general render object function.																					
++ Install some plugins for visual studio:
+  + Editor guideline.
++ Basic fog.
++ Force modification of cursor position system wide should not occur.
++ Tie speed of camera with framerate.
+- Refactor:
+  -+ Comments are verbose to the point of being stupid.
+  -+ Remove c89 block comments when not needed (this is C17 project).
+  -+ OpenGL initialization should be done in main.c (opengl is not a renderer).
+  -+ Move the render object to renderer.c;
+  + application.h/.c is not necessary, control should be handed to the user.
+  - <windows.h> should exclusively be included in main.c, g_hWnd should be static.
+-+ Investigate fbx model loading, if useless delete it or leave it for later.
+  @ use assimp and jpg/png/bmp loaders down the line.
+- Make the app run in x64.
+- Make the rasterizer into a multithreaded system.
+- Use simd to speed up calculations.
+-- Json parser for config files among others.
+-- Implement early z rejection (only possible when lighting computations are added).
+-- Implement perspective correct texture mapping.
+-- Do the same for color interpolation, which is affine currently.
+-- Implement point, bilinear, trilinear and anisotropic filtering.
+-- Illumination calculations and light representation (deferred renderer/clustered deferred?).
+-- Custom memory allocator.
+-- Disentagle the project from visual studio (make file, etc...).
+-- Check the interplay between vector and point structs; maybe use a typedef and have one struct.
+
+Scratch:
 - loadmodelfromfile("models\\cube.fbx");
 - MessageBox(NULL, "Could not register window.", "Error", MB_ICONEXCLAMATION | MB_OK);
-- Upgrade the pc ram.
--------------------------------------------------------------------------------------------------
 
-Other tasks (in no specific order):
-- Implement early z rejection (only possible when lighting computations are added).
-- Implement textures and point, bilinear, trilinear and anisotropic filtering.
-- Illumination calculations and light representation (deferred renderer/clustered deferred?).
-- Write an importer for an animated scene from blender and render in-engine.
-- Perspective correct texture mapping.
-@ Note that the color interpolation as is now is affine and not perspective correct (we need to divide by the same factor 
-we used for the vertices for the interpolation to become linear in screen space).
-- Write a vector class and point typedef with the helper functions.
-- Write a make file for the project for people without visual studio.
-- Custom memory allocator, that uses pre-allocated memory. Additionally, use a memory efficient model to represent models.
-
-Optimizations:
+Notes:
 1- Inlining when it makes sense, huge speed boost.
 2- Fixed point arithmetics, also a huge boost (use it in the renderer).
 3- Multithreading, decompose the frustum with clip planes and use each thread to render a section (or some other scheme).
 4- SIMD assembly instructions for math library, or intrinsic microsoft specific instructions.
 5- Minimize variables definitions.
-
-Priority (parallel) Tasks:
-1- Doxygene documentation, learn the documentation standard.
-2- github and youtube integration.
-3- Make the project work cross platform with unix as seen in marmalade (requires a lot of work).
-4- Integrate sdl.
-5- Re-read the K&R C book.
-
-NOTE: main.c, mycode.c have no headers.
-NOTE: input.h/.c, application.h/.c and main.c are rigid and non-changeable (in the short term at least).
-
-General thoughts:
-- What are the ramifications of not seperating between vertices and vectors. If we do not generalize, we save the 4 mulitplications and addition that occur with the 0 w component of the vector. However if we generalize, 1 single set of functions can work with both components.
-- 'main.c' uses the functions exposed by 'application.h' to start and update the application. 'application.c' expects certain functions to be defined in the project. In this case these functions are defined in 'mycode.c'. These functions are:
-	- void mycodeInitialize(void);
-	- void mycodeUpdate(unsigned int delta);
-	- void mycodeEnd(void);
-- Ultimately move the OS dependant part of the application to its own project or incorporate with sdl2 or a similar 
-package.
-- Compile with a different compiler as visual studio 2015 is not C89 compliant (it is C99 compliant). For example use gcc,
-however this projects depends on windows specific features (creating and managing the window etc...), so the best solution
-would be to separate the windows relying part into a separate project and compile the core using /Za to remove language
-extensions (or compile it using gcc).
+6- github and youtube integration.

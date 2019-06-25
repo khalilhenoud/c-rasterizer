@@ -18,10 +18,10 @@ static float viewportwidth = 0.f;
 
 void getViewportMatrix(Matrix4D output)
 {
-	/* First we need to scale the x and y coordinates (which were -1 < x < 1, -1 < y < 1) to the 
-	screen width/2 and height/2, then move the values into the 0 to width and 0 to height range 
-	by adding half the width and height, -width/2 < x < width/2 -height/2 < y < height/2 which 
-	now becomes 0 < x < width, 0 < y < height. */
+  // First we need to scale the x and y coordinates (which were -1 < x < 1, -1 < y < 1) to the 
+	// screen width/2 and height/2, then move the values into the 0 to width and 0 to height range 
+	// by adding half the width and height, -width/2 < x < width/2 -height/2 < y < height/2 which 
+	// now becomes 0 < x < width, 0 < y < height.
 	Matrix4D m1, m2, m3;
 	setIdentity(m1);
 	m1[0] = (viewportwidth - 1)/2;
@@ -29,13 +29,13 @@ void getViewportMatrix(Matrix4D output)
 	m1[12] = (viewportwidth - 1)/2;
 	m1[13] = (viewportheight - 1)/2;
 
-	/* Since screen space y is downward we need to flip the image on the y and then translate it 
-	downward to produce positive values. */
+	// Since screen space y is downward we need to flip the image on the y and then translate it 
+	// downward to produce positive values.
 	setIdentity(m2);
 	m2[5] = -1;
 	m2[13] = viewportheightminus1;
 
-	/* Offset translating all points to the starting location of the new viewport. */
+	// Offset translating all points to the starting location of the new viewport.
 	setIdentity(m3);
 	m3[12] = viewportxorigin;
 	m3[13] = viewportyorigin;
