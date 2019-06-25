@@ -43,6 +43,7 @@ Tasks:
   - <windows.h> should exclusively be included in main.c, g_hWnd should be static.
 -+ Investigate fbx model loading, if useless delete it or leave it for later.
   @ use assimp and jpg/png/bmp loaders down the line.
+- Cleanup spacing (in visual studio it shows differently then on git).
 - Make the app run in x64.
 - Make the rasterizer into a multithreaded system.
 - Use simd to speed up calculations.

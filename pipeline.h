@@ -8,8 +8,8 @@
 #include "matrix.h"
 
 enum {
-	MODELVIEW,
-	PROJECTION
+  MODELVIEW,
+  PROJECTION
 };
 
 void getViewportMatrix(Matrix4D output);

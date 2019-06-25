@@ -16,9 +16,9 @@ static Model *cube;
 static float angle;
 
 struct Camera {
-	float position[4];
-	float lookatdirection[4];
-	float upvector[4];
+  float position[4];
+  float lookatdirection[4];
+  float upvector[4];
 };
 
 static struct Camera camera;
@@ -29,34 +29,34 @@ static float zfar = 5000.f;
 
 void setCamera(float _position[], float _lookatposition[], float _upvector[])
 {
-	float length;
+  float length;
 
-	// Calculate and normalize the lookatdirection.
-	camera.lookatdirection[0] = _lookatposition[0] - _position[0];
-	camera.lookatdirection[1] = _lookatposition[1] - _position[1];
-	camera.lookatdirection[2] = _lookatposition[2] - _position[2];
-	camera.lookatdirection[3] = _lookatposition[3] - _position[3];
-	length = sqrtf(camera.lookatdirection[0] * camera.lookatdirection[0] + camera.lookatdirection[1] * camera.lookatdirection[1] + camera.lookatdirection[2] * camera.lookatdirection[2] + camera.lookatdirection[3] * camera.lookatdirection[3]);
-	camera.lookatdirection[0] /= length;
-	camera.lookatdirection[1] /= length;
-	camera.lookatdirection[2] /= length;
-	camera.lookatdirection[3] /= length;
+  // Calculate and normalize the lookatdirection.
+  camera.lookatdirection[0] = _lookatposition[0] - _position[0];
+  camera.lookatdirection[1] = _lookatposition[1] - _position[1];
+  camera.lookatdirection[2] = _lookatposition[2] - _position[2];
+  camera.lookatdirection[3] = _lookatposition[3] - _position[3];
+  length = sqrtf(camera.lookatdirection[0] * camera.lookatdirection[0] + camera.lookatdirection[1] * camera.lookatdirection[1] + camera.lookatdirection[2] * camera.lookatdirection[2] + camera.lookatdirection[3] * camera.lookatdirection[3]);
+  camera.lookatdirection[0] /= length;
+  camera.lookatdirection[1] /= length;
+  camera.lookatdirection[2] /= length;
+  camera.lookatdirection[3] /= length;
 
-	// Normalize up vector.
-	camera.upvector[0] = _upvector[0];
-	camera.upvector[1] = _upvector[1];
-	camera.upvector[2] = _upvector[2];
-	camera.upvector[3] = _upvector[3];
-	length = sqrtf(camera.upvector[0] * camera.upvector[0] + camera.upvector[1] * camera.upvector[1] + camera.upvector[2] * camera.upvector[2] + camera.upvector[3] * camera.upvector[3]);
-	camera.upvector[0] /= length;
-	camera.upvector[1] /= length;
-	camera.upvector[2] /= length;
-	camera.upvector[3] /= length;
+  // Normalize up vector.
+  camera.upvector[0] = _upvector[0];
+  camera.upvector[1] = _upvector[1];
+  camera.upvector[2] = _upvector[2];
+  camera.upvector[3] = _upvector[3];
+  length = sqrtf(camera.upvector[0] * camera.upvector[0] + camera.upvector[1] * camera.upvector[1] + camera.upvector[2] * camera.upvector[2] + camera.upvector[3] * camera.upvector[3]);
+  camera.upvector[0] /= length;
+  camera.upvector[1] /= length;
+  camera.upvector[2] /= length;
+  camera.upvector[3] /= length;
 
-	camera.position[0] = _position[0];
-	camera.position[1] = _position[1];
-	camera.position[2] = _position[2];
-	camera.position[3] = _position[3];
+  camera.position[0] = _position[0];
+  camera.position[1] = _position[1];
+  camera.position[2] = _position[2];
+  camera.position[3] = _position[3];
 }
 
 static int mousex = 0;
@@ -68,31 +68,31 @@ static int windowHeight;
 
 void Initialize(void)
 {
-	float position[] = {0, 0, 0, 1};
-	float lookatposition[] = {0, 0, -100, 1};
-	float Y[] = {0, 1, 0, 0};
+  float position[] = {0, 0, 0, 1};
+  float lookatposition[] = {0, 0, -100, 1};
+  float Y[] = {0, 1, 0, 0};
   
   windowWidth   = getWindowWidth();
   windowHeight  = getWindowHeight();
 
-	setCamera(position, lookatposition, Y);
+  setCamera(position, lookatposition, Y);
 
   frameRateControllerInitialize(60, 0);
   initializeRenderer();
 
-	cube = loadModelFromFile_FBX_ASCII("models\\cube.fbx");
-	if (!cube)
-		cube = createCube(1);
-	angle = 0;
-	setViewport(0, 0, (float)windowWidth, (float)windowHeight);
-	setMatrixMode(PROJECTION);
-	frustrum(znear/2, -znear/2, -znear/2 * windowHeight / windowWidth, znear/2 * windowHeight / windowWidth, znear, zfar);
+  cube = loadModelFromFile_FBX_ASCII("models\\cube.fbx");
+  if (!cube)
+    cube = createCube(1);
+  angle = 0;
+  setViewport(0, 0, (float)windowWidth, (float)windowHeight);
+  setMatrixMode(PROJECTION);
+  frustrum(znear/2, -znear/2, -znear/2 * windowHeight / windowWidth, znear/2 * windowHeight / windowWidth, znear, zfar);
 
-	// Hide the cursor.
-	showCursor(0);
+  // Hide the cursor.
+  showCursor(0);
   getCursorScreenPosition(&mousex, &mousey);
   oldmousex = mousex;
-	oldmousey = mousey;
+  oldmousey = mousey;
 }
 
 // Used to limit the mouse upward rotation range.
@@ -103,11 +103,11 @@ static int initialy = -1;
 
 void updateCameraAndControls(unsigned int delta)
 {
-	Matrix4D crossup, camerarotateY, camerarotatetemp, tmpmatrix;
-	float dx, dy, d, tempangle;
-	float speed = 10.f * (delta/16.f);
-	float length;
-	float tmp[4], tmp2[4];
+  Matrix4D crossup, camerarotateY, camerarotatetemp, tmpmatrix;
+  float dx, dy, d, tempangle;
+  float speed = 10.f * (delta/16.f);
+  float length;
+  float tmp[4], tmp2[4];
   int pnx, pny;
 
   if (isKeyTriggered('T'))
@@ -121,27 +121,27 @@ void updateCameraAndControls(unsigned int delta)
     }
   }
   
-	// Signal the applicaton that we want to quit.
-	if (isKeyTriggered(KEY_ESCAPE))
+  // Signal the applicaton that we want to quit.
+  if (isKeyTriggered(KEY_ESCAPE))
     signalQuitApplication();
 
-	// Reset the camera position.
-	if (isKeyTriggered('C')) {
-		yanglelimit = 0;
-		float position[] = { 0, 0, 0, 1 };
-		float lookatposition[] = { 0, 0, -100, 1 };
-		float Y[] = { 0, 1, 0, 0 };
-		setCamera(position, lookatposition, Y);
-	}
+  // Reset the camera position.
+  if (isKeyTriggered('C')) {
+    yanglelimit = 0;
+    float position[] = { 0, 0, 0, 1 };
+    float lookatposition[] = { 0, 0, -100, 1 };
+    float Y[] = { 0, 1, 0, 0 };
+    setCamera(position, lookatposition, Y);
+  }
 
-	// Handling the camera controls, first orientation, second translation.
+  // Handling the camera controls, first orientation, second translation.
   getCursorScreenPosition(&pnx, &pny);
-	mousex = pnx;
-	mousey = pny;
+  mousex = pnx;
+  mousey = pny;
   initialx = initialx == -1 ? mousex : initialx;
   initialy = initialy == -1 ? mousey : initialy;
-	dx = (float)mousex - oldmousex;
-	dy = (float)mousey - oldmousey;
+  dx = (float)mousex - oldmousex;
+  dy = (float)mousey - oldmousey;
   if (cameramode)
     setCursorScreenPosition(oldmousex, oldmousey);
   else
@@ -150,64 +150,64 @@ void updateCameraAndControls(unsigned int delta)
     oldmousey = mousey;
   }
   
-	// Crossing the camera up vector with the opposite of the look at direction.
-	crossProductMatrix(crossup, camera.upvector);
-	tmp[0] = -camera.lookatdirection[0];
-	tmp[1] = -camera.lookatdirection[1];
-	tmp[2] = -camera.lookatdirection[2];
-	tmp[3] = -camera.lookatdirection[3];
-	// 'tmp' is now orthogonal to the up and lookat vector. 
-	transformVectorByMatrix(crossup, tmp);
+  // Crossing the camera up vector with the opposite of the look at direction.
+  crossProductMatrix(crossup, camera.upvector);
+  tmp[0] = -camera.lookatdirection[0];
+  tmp[1] = -camera.lookatdirection[1];
+  tmp[2] = -camera.lookatdirection[2];
+  tmp[3] = -camera.lookatdirection[3];
+  // 'tmp' is now orthogonal to the up and lookat vector. 
+  transformVectorByMatrix(crossup, tmp);
 
-	// Orthogonalizing the camera up and direction vector (to avoid floating point imprecision).
-	// Discard the y and the w components (preserver x and z, making it parallel to the movement 
-	// plane).
-	tmp[1] = tmp[3] = 0;
-	length = sqrtf(tmp[0] * tmp[0] + tmp[2] * tmp[2]);
-	if (length != 0) {
-		// Normalizes tmp and return cross product matrix.
-		crossProductMatrix(crossup, tmp);
-		tmp2[0] = camera.upvector[0];
-		tmp2[1] = camera.upvector[1];
-		tmp2[2] = camera.upvector[2];
-		tmp2[3] = camera.upvector[3];
-		// 'tmp2' is now the oppposite of the direction vector.
-		transformVectorByMatrix(crossup, tmp2);
-		camera.lookatdirection[0] = -tmp2[0];
-		camera.lookatdirection[1] = -tmp2[1];
-		camera.lookatdirection[2] = -tmp2[2];
-		camera.lookatdirection[3] = -tmp2[3];
-	}
+  // Orthogonalizing the camera up and direction vector (to avoid floating point imprecision).
+  // Discard the y and the w components (preserver x and z, making it parallel to the movement 
+  // plane).
+  tmp[1] = tmp[3] = 0;
+  length = sqrtf(tmp[0] * tmp[0] + tmp[2] * tmp[2]);
+  if (length != 0) {
+    // Normalizes tmp and return cross product matrix.
+    crossProductMatrix(crossup, tmp);
+    tmp2[0] = camera.upvector[0];
+    tmp2[1] = camera.upvector[1];
+    tmp2[2] = camera.upvector[2];
+    tmp2[3] = camera.upvector[3];
+    // 'tmp2' is now the oppposite of the direction vector.
+    transformVectorByMatrix(crossup, tmp2);
+    camera.lookatdirection[0] = -tmp2[0];
+    camera.lookatdirection[1] = -tmp2[1];
+    camera.lookatdirection[2] = -tmp2[2];
+    camera.lookatdirection[3] = -tmp2[3];
+  }
 
-	// Create a rotation matrix on the y relative the movement of the mouse on x.
-	rotationMatrixY(camerarotateY, -dx / 1000);
-	// Limit yangleLimit to a certain range (to control x range of movement).
-	tempangle = yanglelimit;
-	tempangle -= dy / 1000;
-	d = -dy / 1000;
-	if (tempangle > 0.525f)
-		d = 0.525f - yanglelimit;
-	else if (tempangle < -0.525f)
-		d = -0.525f - yanglelimit;
-	yanglelimit += d;
-	// Find the rotation matrix along perpendicular axis.
-	axisAngleMatrix(camerarotatetemp, tmp, d);
-	// Switching the rotations here makes no difference, why? It seems geometrically the result is the
-	// same. Just simulate it using your thumb and index.
-	multiplyMatrices(camerarotateY, camerarotatetemp, tmpmatrix);
-	transformVectorByMatrix(tmpmatrix, camera.lookatdirection);
-	transformVectorByMatrix(tmpmatrix, camera.upvector);
+  // Create a rotation matrix on the y relative the movement of the mouse on x.
+  rotationMatrixY(camerarotateY, -dx / 1000);
+  // Limit yangleLimit to a certain range (to control x range of movement).
+  tempangle = yanglelimit;
+  tempangle -= dy / 1000;
+  d = -dy / 1000;
+  if (tempangle > 0.525f)
+    d = 0.525f - yanglelimit;
+  else if (tempangle < -0.525f)
+    d = -0.525f - yanglelimit;
+  yanglelimit += d;
+  // Find the rotation matrix along perpendicular axis.
+  axisAngleMatrix(camerarotatetemp, tmp, d);
+  // Switching the rotations here makes no difference, why? It seems geometrically the result is the
+  // same. Just simulate it using your thumb and index.
+  multiplyMatrices(camerarotateY, camerarotatetemp, tmpmatrix);
+  transformVectorByMatrix(tmpmatrix, camera.lookatdirection);
+  transformVectorByMatrix(tmpmatrix, camera.upvector);
 
-	// Handling translations.
-	if (isKeyPressed('A')) {
-		camera.position[0] -= tmp[0] * speed;
-		camera.position[2] -= tmp[2] * speed;
-	}
+  // Handling translations.
+  if (isKeyPressed('A')) {
+    camera.position[0] -= tmp[0] * speed;
+    camera.position[2] -= tmp[2] * speed;
+  }
 
-	if (isKeyPressed('D')) {
-		camera.position[0] += tmp[0] * speed;
-		camera.position[2] += tmp[2] * speed;
-	}
+  if (isKeyPressed('D')) {
+    camera.position[0] += tmp[0] * speed;
+    camera.position[2] += tmp[2] * speed;
+  }
 
   if (isKeyPressed('Q')) {
     camera.position[1] -= tmp[0] * speed;
@@ -217,31 +217,31 @@ void updateCameraAndControls(unsigned int delta)
     camera.position[1] += tmp[0] * speed;
   }
 
-	if (isKeyPressed('W')) {
-		float vecxz[4]= {0};
-		vecxz[0] = camera.lookatdirection[0];
-		vecxz[2] = camera.lookatdirection[2];
-		length = sqrtf(vecxz[0] * vecxz[0] + vecxz[2] * vecxz[2]);
-		if (length != 0) {
-			vecxz[0] /= length;
-			vecxz[2] /= length;
-			camera.position[0] += vecxz[0] * speed;
-			camera.position[2] += vecxz[2] * speed;
-		}
-	}
+  if (isKeyPressed('W')) {
+    float vecxz[4]= {0};
+    vecxz[0] = camera.lookatdirection[0];
+    vecxz[2] = camera.lookatdirection[2];
+    length = sqrtf(vecxz[0] * vecxz[0] + vecxz[2] * vecxz[2]);
+    if (length != 0) {
+      vecxz[0] /= length;
+      vecxz[2] /= length;
+      camera.position[0] += vecxz[0] * speed;
+      camera.position[2] += vecxz[2] * speed;
+    }
+  }
 
-	if (isKeyPressed('S')) {
-		float vecxz[4] = {0};
-		vecxz[0] = camera.lookatdirection[0];
-		vecxz[2] = camera.lookatdirection[2];
-		length = sqrtf(vecxz[0] * vecxz[0] + vecxz[2] * vecxz[2]);
-		if (length != 0) {
-			vecxz[0] /= length;
-			vecxz[2] /= length;
-			camera.position[0] -= vecxz[0] * speed;
-			camera.position[2] -= vecxz[2] * speed;
-		}
-	}
+  if (isKeyPressed('S')) {
+    float vecxz[4] = {0};
+    vecxz[0] = camera.lookatdirection[0];
+    vecxz[2] = camera.lookatdirection[2];
+    length = sqrtf(vecxz[0] * vecxz[0] + vecxz[2] * vecxz[2]);
+    if (length != 0) {
+      vecxz[0] /= length;
+      vecxz[2] /= length;
+      camera.position[0] -= vecxz[0] * speed;
+      camera.position[2] -= vecxz[2] * speed;
+    }
+  }
 }
 
 static char array[100] = { 0 };
@@ -350,7 +350,7 @@ void Cleanup(void)
   frameRateControllerRelease();
   releaseRenderer();
 
-	if (cube)
-		freeModel(cube);
-	cube = NULL;
+  if (cube)
+    freeModel(cube);
+  cube = NULL;
 }

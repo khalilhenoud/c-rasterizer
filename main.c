@@ -220,6 +220,7 @@ int moveCursorToClientArea(void)
 
     if (clientToScreen(&topleftx, &toplefty) && clientToScreen(&bottomrightx, &bottomrighty)) {
       setCursorScreenPosition((topleftx + bottomrightx)/2, (toplefty + bottomrighty)/2);
+
       return 1;
     }
   }

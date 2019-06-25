@@ -13,7 +13,7 @@ void initializeRenderer(void);
 
 void releaseRenderer(void);
 
-void clearColorAndDepthBuffer(void);		
+void clearColorAndDepthBuffer(void);
 
 void swapBuffer(void);
 

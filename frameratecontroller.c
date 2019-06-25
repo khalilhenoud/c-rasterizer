@@ -10,8 +10,8 @@ void frameRateControllerInitialize(const int frameRate, const int lock)
 {
   startWatchPrecision(1);
 
-	m_FrameRate = frameRate;
-	m_FrameTime = 1000 / m_FrameRate;
+  m_FrameRate = frameRate;
+  m_FrameTime = 1000 / m_FrameRate;
   m_lock = lock;
 }
 
@@ -22,21 +22,21 @@ void frameRateControllerRelease(void)
 
 void setFrameRate(const int frameRate)
 {
-	m_FrameRate = frameRate;
-	m_FrameTime = 1000 / m_FrameRate;
+  m_FrameRate = frameRate;
+  m_FrameTime = 1000 / m_FrameRate;
 }
 
 int getSpecifiedFrameRate(void)
 {
-	return m_FrameRate;
+  return m_FrameRate;
 }
 
 int getActualFrameRate(void)
 {
-	int i = 0;
-	if (m_CurrentFrameTime)
-        i = 1000/m_CurrentFrameTime;
-	return i;
+  int i = 0;
+  if (m_CurrentFrameTime)
+    i = 1000 / m_CurrentFrameTime;
+  return i;
 }
 
 unsigned int frameRateControllerStart(void)

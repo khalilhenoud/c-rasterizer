@@ -6,10 +6,10 @@
 
 /**
  * Holds the 16 floats that define any 4D matrix.
- * > A Matrix4D is made of 16 floats:	
+ * > A Matrix4D is made of 16 floats:
  * >                  0   4	  8	  12
- * >	 								1	  5	  9	  13  
- * >  								f	  6	  10	14  
+ * >	 								1	  5	  9	  13
+ * >  								f	  6	  10	14
  * > 									3	  7	  11	15
  * 
  * @remarks Yet to be optimized. A vector's fourth component should be disregarded to save

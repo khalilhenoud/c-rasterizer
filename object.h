@@ -24,4 +24,3 @@ void renderModel(Model *model);
 Model *loadModelFromFile_FBX_ASCII(const char *filename);
 
 #endif
-
