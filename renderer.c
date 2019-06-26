@@ -18,13 +18,13 @@ static float hnormals[6][4] = {0};
 #define FOG_RGB 0x55
 
 #define RenderPixel(x, y, red, green, blue, fog) \
-  colorbuffer[(y) * g_WindowWidth * 3 + (x) * 3 + 0] = (unsigned char)(red * fog * 255) + (unsigned char)(FOG_RGB * (1.f - fog));		\
-  colorbuffer[(y) * g_WindowWidth * 3 + (x) * 3 + 1] = (unsigned char)(green * fog * 255) + (unsigned char)(FOG_RGB * (1.f - fog));		\
+  colorbuffer[(y) * g_WindowWidth * 3 + (x) * 3 + 0] = (unsigned char)(red * fog * 255) + (unsigned char)(FOG_RGB * (1.f - fog));    \
+  colorbuffer[(y) * g_WindowWidth * 3 + (x) * 3 + 1] = (unsigned char)(green * fog * 255) + (unsigned char)(FOG_RGB * (1.f - fog));    \
   colorbuffer[(y) * g_WindowWidth * 3 + (x) * 3 + 2] = (unsigned char)(blue * fog * 255) + (unsigned char)(FOG_RGB * (1.f - fog));
   
 static __inline long Ceil(float g)
 {
-  long l = (long)g;	/* Discards fraction. */
+  long l = (long)g;  /* Discards fraction. */
   return ((l == g) | (g < 0)) ? l : l + 1;
 }
 
@@ -128,14 +128,14 @@ void drawTriangle(const float vertices[12], const float colors[9])
         midvtx = 1;
         botvtx = 2;
         midisleft = 1;
-      } else {	/* Case 6. */
+      } else {  /* Case 6. */
         topvtx = 0;
         midvtx = 2;
         botvtx = 1;
         midisleft = 0;
       }
     }
-  } else {	/* Cases 1, 2, 3. */
+  } else {  /* Cases 1, 2, 3. */
     /* Case 2. */
     if (vertices[2 * 4 + 1] < vertices[1 * 4 + 1]) {
       topvtx = 2;
@@ -149,7 +149,7 @@ void drawTriangle(const float vertices[12], const float colors[9])
         midvtx = 0;
         botvtx = 2;
         midisleft = 0;
-      } else {	/* Case 1. */
+      } else {  /* Case 1. */
         midvtx = 2;
         botvtx = 0;
         midisleft = 1;
@@ -157,21 +157,21 @@ void drawTriangle(const float vertices[12], const float colors[9])
     }
   }
   
-  invslope[0] = (vertices[botvtx * 4 + 0] - vertices[topvtx * 4 + 0])/(vertices[botvtx * 4 + 1] - vertices[topvtx * 4 + 1]);	/* Top to bottom. */	
-  invslope[1] = (vertices[midvtx * 4 + 0] - vertices[topvtx * 4 + 0])/(vertices[midvtx * 4 + 1] - vertices[topvtx * 4 + 1]);	/* Top to middle. */
-  invslope[2] = (vertices[botvtx * 4 + 0] - vertices[midvtx * 4 + 0])/(vertices[botvtx * 4 + 1] - vertices[midvtx * 4 + 1]);	/* Middle to bottom. */
-  invzslope[0] = (vertices[botvtx * 4 + 2] - vertices[topvtx * 4 + 2])/(vertices[botvtx * 4 + 1] - vertices[topvtx * 4 + 1]);	/* Top to bottom. */
-  invzslope[1] = (vertices[midvtx * 4 + 2] - vertices[topvtx * 4 + 2])/(vertices[midvtx * 4 + 1] - vertices[topvtx * 4 + 1]);	/* Top to middle. */
-  invzslope[2] = (vertices[botvtx * 4 + 2] - vertices[midvtx * 4 + 2])/(vertices[botvtx * 4 + 1] - vertices[midvtx * 4 + 1]);	/* Middle to bottom. */
-  invcolrslope[0] = (colors[botvtx * 3 + 0] - colors[topvtx * 3 + 0])/(vertices[botvtx * 4 + 1] - vertices[topvtx * 4 + 1]);	/* Top to bottom. */
-  invcolrslope[1] = (colors[midvtx * 3 + 0] - colors[topvtx * 3 + 0])/(vertices[midvtx * 4 + 1] - vertices[topvtx * 4 + 1]);	/* Top to middle. */
-  invcolrslope[2] = (colors[botvtx * 3 + 0] - colors[midvtx * 3 + 0])/(vertices[botvtx * 4 + 1] - vertices[midvtx * 4 + 1]);	/* Middle to bottom. */
-  invcolgslope[0] = (colors[botvtx * 3 + 1] - colors[topvtx * 3 + 1])/(vertices[botvtx * 4 + 1] - vertices[topvtx * 4 + 1]);	/* Top to bottom. */
-  invcolgslope[1] = (colors[midvtx * 3 + 1] - colors[topvtx * 3 + 1])/(vertices[midvtx * 4 + 1] - vertices[topvtx * 4 + 1]);	/* Top to middle. */
-  invcolgslope[2] = (colors[botvtx * 3 + 1] - colors[midvtx * 3 + 1])/(vertices[botvtx * 4 + 1] - vertices[midvtx * 4 + 1]);	/* Middle to bottom. */
-  invcolbslope[0] = (colors[botvtx * 3 + 2] - colors[topvtx * 3 + 2])/(vertices[botvtx * 4 + 1] - vertices[topvtx * 4 + 1]);	/* Top to bottom. */
-  invcolbslope[1] = (colors[midvtx * 3 + 2] - colors[topvtx * 3 + 2])/(vertices[midvtx * 4 + 1] - vertices[topvtx * 4 + 1]);	/* Top to middle. */
-  invcolbslope[2] = (colors[botvtx * 3 + 2] - colors[midvtx * 3 + 2])/(vertices[botvtx * 4 + 1] - vertices[midvtx * 4 + 1]);	/* Middle to bottom. */
+  invslope[0] = (vertices[botvtx * 4 + 0] - vertices[topvtx * 4 + 0])/(vertices[botvtx * 4 + 1] - vertices[topvtx * 4 + 1]);  /* Top to bottom. */  
+  invslope[1] = (vertices[midvtx * 4 + 0] - vertices[topvtx * 4 + 0])/(vertices[midvtx * 4 + 1] - vertices[topvtx * 4 + 1]);  /* Top to middle. */
+  invslope[2] = (vertices[botvtx * 4 + 0] - vertices[midvtx * 4 + 0])/(vertices[botvtx * 4 + 1] - vertices[midvtx * 4 + 1]);  /* Middle to bottom. */
+  invzslope[0] = (vertices[botvtx * 4 + 2] - vertices[topvtx * 4 + 2])/(vertices[botvtx * 4 + 1] - vertices[topvtx * 4 + 1]);  /* Top to bottom. */
+  invzslope[1] = (vertices[midvtx * 4 + 2] - vertices[topvtx * 4 + 2])/(vertices[midvtx * 4 + 1] - vertices[topvtx * 4 + 1]);  /* Top to middle. */
+  invzslope[2] = (vertices[botvtx * 4 + 2] - vertices[midvtx * 4 + 2])/(vertices[botvtx * 4 + 1] - vertices[midvtx * 4 + 1]);  /* Middle to bottom. */
+  invcolrslope[0] = (colors[botvtx * 3 + 0] - colors[topvtx * 3 + 0])/(vertices[botvtx * 4 + 1] - vertices[topvtx * 4 + 1]);  /* Top to bottom. */
+  invcolrslope[1] = (colors[midvtx * 3 + 0] - colors[topvtx * 3 + 0])/(vertices[midvtx * 4 + 1] - vertices[topvtx * 4 + 1]);  /* Top to middle. */
+  invcolrslope[2] = (colors[botvtx * 3 + 0] - colors[midvtx * 3 + 0])/(vertices[botvtx * 4 + 1] - vertices[midvtx * 4 + 1]);  /* Middle to bottom. */
+  invcolgslope[0] = (colors[botvtx * 3 + 1] - colors[topvtx * 3 + 1])/(vertices[botvtx * 4 + 1] - vertices[topvtx * 4 + 1]);  /* Top to bottom. */
+  invcolgslope[1] = (colors[midvtx * 3 + 1] - colors[topvtx * 3 + 1])/(vertices[midvtx * 4 + 1] - vertices[topvtx * 4 + 1]);  /* Top to middle. */
+  invcolgslope[2] = (colors[botvtx * 3 + 1] - colors[midvtx * 3 + 1])/(vertices[botvtx * 4 + 1] - vertices[midvtx * 4 + 1]);  /* Middle to bottom. */
+  invcolbslope[0] = (colors[botvtx * 3 + 2] - colors[topvtx * 3 + 2])/(vertices[botvtx * 4 + 1] - vertices[topvtx * 4 + 1]);  /* Top to bottom. */
+  invcolbslope[1] = (colors[midvtx * 3 + 2] - colors[topvtx * 3 + 2])/(vertices[midvtx * 4 + 1] - vertices[topvtx * 4 + 1]);  /* Top to middle. */
+  invcolbslope[2] = (colors[botvtx * 3 + 2] - colors[midvtx * 3 + 2])/(vertices[botvtx * 4 + 1] - vertices[midvtx * 4 + 1]);  /* Middle to bottom. */
 
   leftedge = midisleft;
   rightedge = !midisleft;
@@ -306,11 +306,11 @@ void clipPolygonHomogeneousAgainstPlane(float *polygons, float *polycolors, int 
     /* If it is interior do nothing else if it is exterior flag it as culled using the 
     drawpolygon[] array. */
     if (front && !back)
-      continue;	/* We are to the front or/and have a shared edge. */
+      continue;  /* We are to the front or/and have a shared edge. */
 
     /* If it is to the back or colinear with the clip plane. */
-    if ((back && !front) || (!front && !back && on)) {	
-      drawpolygon[i] = 0;	/* 0 means do not draw that polygon. */
+    if ((back && !front) || (!front && !back && on)) {  
+      drawpolygon[i] = 0;  /* 0 means do not draw that polygon. */
       continue;
     }
 
@@ -340,7 +340,7 @@ void clipPolygonHomogeneousAgainstPlane(float *polygons, float *polycolors, int 
       /* Find the edge where the intersection occurs, here we also have 2 cases. Case where 
       the third vertex is coplanar, meaning the first segment interescts the clipping 
       plane. */
-      if (dotproduct[index1] < 0)	{	
+      if (dotproduct[index1] < 0)  {  
         /* We need to find the intersection point. */
         d0 = dotproduct[index0];
         d1 = dotproduct[index1];

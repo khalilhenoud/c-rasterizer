@@ -27,7 +27,7 @@ void setIdentity(float matrix[])
   matrix[0] = matrix[5] = matrix[10] = matrix[15] = 1.f;
 }
 
-#define DETERMINANT2D(m0, m1, m2, m3, m4, m5, m6, m7, m8)	((m0 * m4 * m8) - (m0 * m7 * m5) - (m3 * m1 * m8) + (m3 * m7 * m2) + (m6 * m1 * m5) - (m6 * m4 * m2))
+#define DETERMINANT2D(m0, m1, m2, m3, m4, m5, m6, m7, m8)  ((m0 * m4 * m8) - (m0 * m7 * m5) - (m3 * m1 * m8) + (m3 * m7 * m2) + (m6 * m1 * m5) - (m6 * m4 * m2))
 
 float getDeterminant(float m[])
 {

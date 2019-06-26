@@ -14,7 +14,7 @@ int getActualFrameRate(void);
 
 /**
  * Used in conjunction with frameRateControllerEnd to report/lock framerate.
- * @return	The delta difference in milliseconds since the last frame.
+ * @return  The delta difference in milliseconds since the last frame.
  */
 unsigned int frameRateControllerStart(void);
 
