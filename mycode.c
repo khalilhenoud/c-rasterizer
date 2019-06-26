@@ -1,6 +1,6 @@
-#include "platform.h"
 #include <stdio.h>
 #include <math.h>
+#include "platform.h"
 #include "input.h"
 #include "matrix.h"
 #include "renderer.h"
@@ -71,6 +71,9 @@ void Initialize(void)
   float position[] = {0, 0, 0, 1};
   float lookatposition[] = {0, 0, -100, 1};
   float Y[] = {0, 1, 0, 0};
+
+  // TODO: Ultimately window size and settings is to be read from config.
+  setupWindow("CRasterizerWindow", 1500, 800, 1);
   
   windowWidth   = getWindowWidth();
   windowHeight  = getWindowHeight();
@@ -78,7 +81,7 @@ void Initialize(void)
   setCamera(position, lookatposition, Y);
 
   frameRateControllerInitialize(60, 0);
-  initializeRenderer();
+  setupRenderer(1500, 800);
 
   cube = loadModelFromFile_FBX_ASCII("models\\cube.fbx");
   if (!cube)
@@ -250,7 +253,6 @@ void Update(void)
 {
   clearColorAndDepthBuffer();
 
-  // Update input.
   keyboardUpdate();
   mouseUpdate();
 
@@ -260,7 +262,7 @@ void Update(void)
   int l, k, m;
   int maxX, maxY, maxZ;
 
-  // Getting the projection transformation. 
+  // Get projection transformation, set model view matrix to identity.
   getViewportMatrix(viewport);
   setMatrixMode(PROJECTION);
   getMatrix(projection);
@@ -300,21 +302,19 @@ void Update(void)
   maxX = 10;
   maxY = 5;
   maxZ = 10;
-  // Draw l * k cubes. 
 
+  // Draw a grid of cubes.
   for (l = 0; l < maxX; ++l) {
     for (m = 0; m < maxY; ++m) {
       for (k = 0; k < maxZ; ++k) {
 
         pushMatrix();
 
-        // Scale matrix. 
+        // Scale, rotate, translate.
         setIdentity(scale);
         scaleMatrix(scale, 50, 50, 50);
-        // Rotation matrix. 
         setIdentity(rotation);
         rotationMatrixY(rotation, angle);
-        // Translation matrix. 
         setIdentity(translation);
 #if ANIMATED
         translationMatrix(translation, 300.f * l - 300.f * maxX / 2, m * 200.f - 150.f + sinf(angle + (3.f * (maxX/4.f)) * (l/(float)maxX) + (1.f * (maxZ/4.f)) * (k/(float)maxZ)) * 200 -400, -700.f - 200.f * k);
@@ -325,13 +325,17 @@ void Update(void)
         multiplyMatrices(translation, rotation, worldtransformation);
         multiplyMatrices(worldtransformation, scale, worldtransformation);
 
-        // Multiply world transformation with camera transformation, yielding effectively a
-        // model-view tranformation. 
+        // Premultiply with camera transformation, yielding effectively a model-view matrix. 
         preMultiply(worldtransformation);
 
-        renderModel(cube);
-
-        // Pop the matrix. 
+        {
+          int vertexnumber, indexnumber;
+          const float *vertices   = getVertexArray(cube, &vertexnumber);
+          const float *colors     = getColorArray(cube, &vertexnumber);
+          const int *indices      = getIndexArray(cube, &indexnumber);
+          render(vertices, colors, vertexnumber, indices, indexnumber);
+        }
+        
         popMatrix(unused);
       }
     }
@@ -349,6 +353,7 @@ void Cleanup(void)
 {
   frameRateControllerRelease();
   releaseRenderer();
+  cleanupWindow();
 
   if (cube)
     freeModel(cube);

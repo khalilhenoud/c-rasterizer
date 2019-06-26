@@ -1,17 +1,13 @@
 #include <windows.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <GL/gl.h>
+#include "platform.h"
 
-static const char *g_WindowClassIdent = "cWindow";      // Custom window class identifier.
+static int g_WindowWidth;
+static int g_WindowHeight;
+static HWND g_hWnd;
 
-// TODO: Ultimately to be read from config.
-static int g_WindowWidth = 1500;
-static int g_WindowHeight = 800;
-static int g_ScreenWidth = 0;
-static int g_ScreenHeight = 0;
-HWND g_hWnd;
-
-static FILE *stream;
+static HDC hWindowDC;
+static HGLRC hWindowRC;
 
 void Initialize(void);
 void Update(void);
@@ -21,53 +17,8 @@ LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nShowCmd)
 {
-  WNDCLASSEX wc;
   MSG msg;
-
-#if defined(_DEBUG) && defined(_MSC_VER)
-  {
-    AllocConsole();
-    AttachConsole(GetCurrentProcessId());
-    freopen_s(&stream, "CON", "w", stdout);
-  }
-#endif
-
-  g_ScreenWidth = GetSystemMetrics(SM_CXSCREEN);
-  g_ScreenHeight = GetSystemMetrics(SM_CYSCREEN);
-
-  wc.cbSize = sizeof(WNDCLASSEX);
-  wc.cbClsExtra = 0;
-  wc.cbWndExtra = 0;
-  wc.hbrBackground = (HBRUSH)(COLOR_WINDOW);
-  wc.hCursor = LoadCursor(0, IDC_ARROW);
-  wc.hIcon = 0;
-  wc.hIconSm = 0;
-  wc.hInstance = hInstance;
-  wc.lpfnWndProc = wndProc;
-  wc.lpszClassName = g_WindowClassIdent;
-  wc.lpszMenuName = 0;
-  wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-
-  // Register custom window class, then use with CreateWindowEx.
-  if (!RegisterClassEx(&wc)) {
-    MessageBox(NULL, "Could not register window.", "Error", MB_ICONEXCLAMATION | MB_OK);
-    return -1;
-  }
-
-  // Create window and store its handle.
-  g_hWnd = CreateWindowEx(WS_EX_WINDOWEDGE, g_WindowClassIdent, "C Project",
-    WS_OVERLAPPEDWINDOW, (g_ScreenWidth - g_WindowWidth) / 2, (g_ScreenHeight - g_WindowHeight) / 2, g_WindowWidth, g_WindowHeight,
-    NULL, NULL, hInstance, NULL);
-
-  if (g_hWnd == NULL) {
-    MessageBox(NULL, "Could not create window.", "Error", MB_ICONEXCLAMATION | MB_OK);
-    return -1;
-  }
-
-  ShowWindow(g_hWnd, nShowCmd);
-  UpdateWindow(g_hWnd);
-
-  // Entry point to user code.
+ 
   Initialize();
 
   while (1) {
@@ -101,6 +52,78 @@ LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
   }
 
   return 0;
+}
+
+int setupWindow(const char *winClassType, int width, int height, int show)
+{
+  WNDCLASSEX wc;
+  int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+  int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+
+  if (g_hWnd)
+    return ALREADYCREATED;
+
+  wc.cbSize = sizeof(WNDCLASSEX);
+  wc.cbClsExtra = 0;
+  wc.cbWndExtra = 0;
+  wc.hbrBackground = (HBRUSH)(COLOR_WINDOW);
+  wc.hCursor = LoadCursor(0, IDC_ARROW);
+  wc.hIcon = 0;
+  wc.hIconSm = 0;
+  wc.hInstance = GetModuleHandle(NULL);
+  wc.lpfnWndProc = wndProc;
+  wc.lpszClassName = winClassType;
+  wc.lpszMenuName = 0;
+  wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+
+  if (!RegisterClassEx(&wc))
+    return COULDNOTREGISTER;
+
+  // Create window and store its handle.
+  g_hWnd = CreateWindowEx(WS_EX_WINDOWEDGE, winClassType, "C Project",
+    WS_OVERLAPPEDWINDOW, (screenWidth - width) / 2, (screenHeight - height) / 2, width, height,
+    NULL, NULL, GetModuleHandle(NULL), NULL);
+
+  if (!g_hWnd)
+    return COULDNOTCREATE;
+
+  ShowWindow(g_hWnd, show);
+  UpdateWindow(g_hWnd);
+
+  g_WindowWidth = width;
+  g_WindowHeight = height;
+
+  // Initialize OpenGL.
+  PIXELFORMATDESCRIPTOR kPFD = { 0 };
+  int iPixelFormat;
+
+  hWindowDC = GetDC(g_hWnd);
+  kPFD.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+  kPFD.nVersion = 1;
+  kPFD.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER | PFD_GENERIC_ACCELERATED;
+  kPFD.dwLayerMask = PFD_MAIN_PLANE;
+  kPFD.iPixelType = PFD_TYPE_RGBA;
+  kPFD.cColorBits = 32;
+  kPFD.cDepthBits = 24;
+
+  iPixelFormat = ChoosePixelFormat(hWindowDC, &kPFD);
+  SetPixelFormat(hWindowDC, iPixelFormat, &kPFD);
+  hWindowRC = wglCreateContext(hWindowDC);
+  wglMakeCurrent(hWindowDC, hWindowRC);
+
+  return 0;
+}
+
+void cleanupWindow(void)
+{
+  wglDeleteContext(hWindowRC);
+  ReleaseDC(g_hWnd, hWindowDC);
+}
+
+void blitAndSwap(void *buffer)
+{
+  glDrawPixels(g_WindowWidth, g_WindowHeight, GL_RGB, GL_UNSIGNED_BYTE, buffer);
+  SwapBuffers(hWindowDC);
 }
 
 int getWindowWidth(void)

@@ -1,21 +1,19 @@
 /**
  * @author  Khalil El Henoud
- * @brief   Rendering functionality.
  */
 #ifndef CPROJ_RENDERER
 #define CPROJ_RENDERER
 
-/**
- * Initializes the renderer. Creates and sets the color and depth buffer and initializes the
- * homogeneous clipping planes.
- */
-void initializeRenderer(void);
+/// Creates color/depth buffer. Initializes homogeneous clippng plaens.
+void setupRenderer(int width, int height);
 
 void releaseRenderer(void);
 
 void clearColorAndDepthBuffer(void);
 
 void swapBuffer(void);
+
+void render(const float *vertices, const float *colors, int vertexNumber, const int *indices, int indexNumber);
 
 /**
  * Draw triangle, algorithm can be found in cs 200/250 course.

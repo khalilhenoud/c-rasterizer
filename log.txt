@@ -13,22 +13,22 @@ Tasks section Legend:
 # ... # Scrath block pad, can span several lines.
 
 Tasks:
-+ Copy matrix class from illumination project (without optimization, will be done later).									
-+ Copy pipeline class from the illummination project.																		
-+ Write a triangle rasterizer, a naive triangle rasterizer which can be expanded and optimized later.						
-+ Make a small test model (handwritten) and try and see if it is drawn correctly onto the screen.							
-+ Axis-angle matrix implementation.																							
-+ Write a camera class. And allow it to freely walk the scene.																 
-+ Implement a graphic hack till we implement homogeneous polygon clipping.													
-+ Polygon clipping in homogeneous space and remove the pixel bound tests in the triangle rasterizer.						
-+ Integration between the clipping in homogeneous space and triangle rasterizer.											
-+ Fix bug in the movement code (floating point imprecision).																
-+ Simple optimizations (inline render pixel and buffered blitting to opengl).												
-+ Cleanup code in preparation for next step.																			
-+ Make a general object structure (to be expanded later).																	
-+ Add indices and colors to the object structure in 'object.c'.																
-+ Move createCube into 'object.c' and make it return a pointer to such object.												
-+ Make a general render object function.																					
++ Copy matrix class from illumination project (without optimization, will be done later).                  
++ Copy pipeline class from the illummination project.                                    
++ Write a triangle rasterizer, a naive triangle rasterizer which can be expanded and optimized later.            
++ Make a small test model (handwritten) and try and see if it is drawn correctly onto the screen.              
++ Axis-angle matrix implementation.                                              
++ Write a camera class. And allow it to freely walk the scene.                                 
++ Implement a graphic hack till we implement homogeneous polygon clipping.                          
++ Polygon clipping in homogeneous space and remove the pixel bound tests in the triangle rasterizer.            
++ Integration between the clipping in homogeneous space and triangle rasterizer.                      
++ Fix bug in the movement code (floating point imprecision).                                
++ Simple optimizations (inline render pixel and buffered blitting to opengl).                        
++ Cleanup code in preparation for next step.                                      
++ Make a general object structure (to be expanded later).                                  
++ Add indices and colors to the object structure in 'object.c'.                                
++ Move createCube into 'object.c' and make it return a pointer to such object.                        
++ Make a general render object function.                                          
 + Install some plugins for visual studio:
   + Editor guideline.
 + Basic fog.
@@ -37,13 +37,12 @@ Tasks:
 - Refactor:
   -+ Comments are verbose to the point of being stupid.
   -+ Remove c89 block comments when not needed (this is C17 project).
-  -+ OpenGL initialization should be done in main.c (opengl is not a renderer).
-  -+ Move the render object to renderer.c;
+  + OpenGL initialization should be done in main.c (opengl is not a renderer).
+  + Move the render object to renderer.c;
   + application.h/.c is not necessary, control should be handed to the user.
-  - <windows.h> should exclusively be included in main.c, g_hWnd should be static.
--+ Investigate fbx model loading, if useless delete it or leave it for later.
-  @ use assimp and jpg/png/bmp loaders down the line.
-- Cleanup spacing (in visual studio it shows differently then on git).
+  + <windows.h> should exclusively be included in main.c, g_hWnd should be static.
++ Investigate fbx model loading, if useless delete it or leave it for later.
++ Cleanup spacing (in visual studio it shows differently then on git).
 - Make the app run in x64.
 - Make the rasterizer into a multithreaded system.
 - Use simd to speed up calculations.

@@ -6,6 +6,13 @@
 #define PLATFORM_H
 
 // Window functionality.
+#define ALREADYCREATED    1
+#define COULDNOTREGISTER  2
+#define COULDNOTCREATE    3
+
+int setupWindow(const char *winClassType, int width, int height, int show);
+void cleanupWindow(void);
+void blitAndSwap(void *buffer);
 void setWindowTitle(char const *title);
 void signalQuitApplication(void);
 int getWindowRect(long int *const x, long int *const y, long int *const width, long int *const height);
