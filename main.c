@@ -2,6 +2,9 @@
 #include <GL/gl.h>
 #include "platform.h"
 
+#pragma comment(lib, "opengl32.lib")
+#pragma comment(lib, "winmm.lib")
+
 static int g_WindowWidth;
 static int g_WindowHeight;
 static HWND g_hWnd;

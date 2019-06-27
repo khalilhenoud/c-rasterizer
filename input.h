@@ -61,8 +61,6 @@ int isMouseMiddleButtonTriggered(void);
 int isMouseRightButtonPressed(void);
 int isMouseRightButtonTriggered(void);
 
-void getMousePosition(int *x, int *y);
-
 int isKeyPressed(int vKey);
 int isKeyTriggered(int vKey);
 

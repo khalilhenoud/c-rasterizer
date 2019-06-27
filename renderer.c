@@ -279,48 +279,39 @@ void drawTriangle(const float vertices[12], const float colors[9])
   int y, yend, x, xend;
   float xleft, xright, z0, z1, r0, g0, b0, r1, g1, b1;
 
-  // We are dealing with case 4, 5, 6 consult CS200 for details
-  if (vertices[0 * 4 + 1] < vertices[1 * 4 + 1]) {
-    // Case 4.
-    if (vertices[2 * 4 + 1] < vertices[0 * 4 + 1]) {
+  // Consult CS200 for details.
+  if (vertices[0 * 4 + 1] < vertices[1 * 4 + 1]) {        // Case 4, 5, 6.
+    if (vertices[2 * 4 + 1] < vertices[0 * 4 + 1]) {      // Case 4.
       topvtx = 2;
       midvtx = 0;
       botvtx = 1;
       midisleft = 1;
-    }
-    else {
-      // Case 5.
+    } else {                                              // Case 5.
       if (vertices[1 * 4 + 1] < vertices[2 * 4 + 1]) {
         topvtx = 0;
         midvtx = 1;
         botvtx = 2;
         midisleft = 1;
-      }
-      else {  // Case 6.
+      } else {                                            // Case 6.
         topvtx = 0;
         midvtx = 2;
         botvtx = 1;
         midisleft = 0;
       }
     }
-  }
-  else {  // Cases 1, 2, 3.
-    // Case 2:
-    if (vertices[2 * 4 + 1] < vertices[1 * 4 + 1]) {
+  } else {                                                // Cases 1, 2, 3.
+    if (vertices[2 * 4 + 1] < vertices[1 * 4 + 1]) {      // Case 2:
       topvtx = 2;
       midvtx = 1;
       botvtx = 0;
       midisleft = 0;
-    }
-    else {
+    } else {                                              // Case 3.
       topvtx = 1;
-      // Case 3.
       if (vertices[0 * 4 + 1] < vertices[2 * 4 + 1]) {
         midvtx = 0;
         botvtx = 2;
         midisleft = 0;
-      }
-      else {  // Case 1.
+      } else {                                            // Case 1.
         midvtx = 2;
         botvtx = 0;
         midisleft = 1;
@@ -401,8 +392,7 @@ void drawTriangle(const float vertices[12], const float colors[9])
     r0 = invcolrslope[leftedge] * ((float)y - vertices[midvtx * 4 + 1]) + colors[midvtx * 3 + 0];
     g0 = invcolgslope[leftedge] * ((float)y - vertices[midvtx * 4 + 1]) + colors[midvtx * 3 + 1];
     b0 = invcolbslope[leftedge] * ((float)y - vertices[midvtx * 4 + 1]) + colors[midvtx * 3 + 2];
-  }
-  else {
+  } else {
     xright = invslope[rightedge] * ((float)y - vertices[midvtx * 4 + 1]) + vertices[midvtx * 4 + 0];
     z1 = invzslope[rightedge] * ((float)y - vertices[midvtx * 4 + 1]) + vertices[midvtx * 4 + 2];
     r1 = invcolrslope[rightedge] * ((float)y - vertices[midvtx * 4 + 1]) + colors[midvtx * 3 + 0];

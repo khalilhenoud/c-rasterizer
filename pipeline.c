@@ -58,12 +58,12 @@ void frustrum(float right, float left, float bottom, float top, float near, floa
 {
   Matrix4D projection;
   float A, B, C, D, E, F, G;
-  A = (2 * near)/(right - left);
-  B = (2 * near)/(top - bottom);
-  C = (right + left)/(right - left);
-  D = (top + bottom)/(top - bottom);
-  E = - (far + near)/(far - near);
-  F = - (2 * far * near)/(far - near);
+  A = (2 * near) / (right - left);
+  B = (2 * near) / (top - bottom);
+  C = (right + left) / (right - left);
+  D = (top + bottom) / (top - bottom);
+  E = -(far + near) / (far - near);
+  F = -(2 * far * near) / (far - near);
   G = -1;
 
   setIdentity(projection);

@@ -4,7 +4,7 @@
 #ifndef CPROJ_RENDERER
 #define CPROJ_RENDERER
 
-/// Creates color/depth buffer. Initializes homogeneous clippng plaens.
+/// Creates color/depth buffer. Initializes homogeneous clippng planes.
 void setupRenderer(int width, int height);
 
 void releaseRenderer(void);

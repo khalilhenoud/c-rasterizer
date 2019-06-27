@@ -63,21 +63,17 @@ static int mousex = 0;
 static int mousey = 0;
 static int oldmousex = 0;
 static int oldmousey = 0;
-static int windowWidth;
-static int windowHeight;
 
 void Initialize(void)
 {
   float position[] = {0, 0, 0, 1};
   float lookatposition[] = {0, 0, -100, 1};
   float Y[] = {0, 1, 0, 0};
+  int windowWidth = 1500;
+  int windowHeight = 800;
 
   // TODO: Ultimately window size and settings is to be read from config.
   setupWindow("CRasterizerWindow", 1500, 800, 1);
-  
-  windowWidth   = getWindowWidth();
-  windowHeight  = getWindowHeight();
-
   setCamera(position, lookatposition, Y);
 
   frameRateControllerInitialize(60, 0);
@@ -113,11 +109,9 @@ void updateCameraAndControls(unsigned int delta)
   float tmp[4], tmp2[4];
   int pnx, pny;
 
-  if (isKeyTriggered('T'))
-  {
+  if (isKeyTriggered('T')) {
     cameramode = !cameramode;
-    if (cameramode)
-    {
+    if (cameramode) {
       oldmousex = initialx;
       oldmousey = initialy;
       moveCursorToClientArea();
@@ -147,8 +141,7 @@ void updateCameraAndControls(unsigned int delta)
   dy = (float)mousey - oldmousey;
   if (cameramode)
     setCursorScreenPosition(oldmousex, oldmousey);
-  else
-  {
+  else {
     oldmousex = mousex;
     oldmousey = mousey;
   }
@@ -212,13 +205,11 @@ void updateCameraAndControls(unsigned int delta)
     camera.position[2] += tmp[2] * speed;
   }
 
-  if (isKeyPressed('Q')) {
+  if (isKeyPressed('Q'))
     camera.position[1] -= tmp[0] * speed;
-  }
 
-  if (isKeyPressed('E')) {
+  if (isKeyPressed('E'))
     camera.position[1] += tmp[0] * speed;
-  }
 
   if (isKeyPressed('W')) {
     float vecxz[4]= {0};

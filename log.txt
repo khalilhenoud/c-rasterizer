@@ -34,16 +34,16 @@ Tasks:
 + Basic fog.
 + Force modification of cursor position system wide should not occur.
 + Tie speed of camera with framerate.
-- Refactor:
-  -+ Comments are verbose to the point of being stupid.
-  -+ Remove c89 block comments when not needed (this is C17 project).
++ Refactor:
+  + Comments are verbose to the point of being stupid.
+  + Remove c89 block comments when not needed (this is C17 project).
   + OpenGL initialization should be done in main.c (opengl is not a renderer).
   + Move the render object to renderer.c;
   + application.h/.c is not necessary, control should be handed to the user.
   + <windows.h> should exclusively be included in main.c, g_hWnd should be static.
 + Investigate fbx model loading, if useless delete it or leave it for later.
 + Cleanup spacing (in visual studio it shows differently then on git).
-- Make the app run in x64.
++ Make the app run in x64.
 - Make the rasterizer into a multithreaded system.
 - Use simd to speed up calculations.
 -- Json parser for config files among others.
